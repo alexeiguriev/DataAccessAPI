@@ -10,7 +10,7 @@ namespace DataAccessAPI
 {
     public class DataAccessApi
     {
-        SqlConnector sqlConn = new SqlConnector();
+        SqlConnector sqlConn = new SqlConnector("Server=.\\SQLEXPRESS;Database=USERdb;Trusted_Connection=True;");
 
         public string[][] GetAllUses()
         {
