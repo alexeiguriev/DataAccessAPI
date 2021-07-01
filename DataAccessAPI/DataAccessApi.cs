@@ -10,8 +10,8 @@ namespace DataAccessAPI
 {
     public class DataAccessApi : IDataAccessApi
     {
-        //IDataConnection dataConnection = new SqlConnector();
-        IDataConnection dataConnection = new TextConnector();
+        IDataConnection dataConnection = new SqlConnector();
+        //IDataConnection dataConnection = new TextConnector();
 
         public string[][] GetAllUses()
         {
