@@ -8,17 +8,18 @@ using DataAccesslibrary.Models;
 
 namespace DataAccessAPI
 {
-    public class DataAccessApi
+    public class DataAccessApi : IDataAccessApi
     {
-        SqlConnector sqlConn = new SqlConnector("Server=DESKTOP-N5N3TKU;Database=USERdb;Trusted_Connection=True;");
+        //IDataConnection dataConnection = new SqlConnector();
+        IDataConnection dataConnection = new TextConnector();
 
         public string[][] GetAllUses()
         {
-            List<USER> gotUsers = sqlConn.GetUSER_All();
+            List<UserModel> gotUsers = dataConnection.GetUser_All();
 
             List<string[]> list = new List<string[]>();
 
-            foreach (USER user in gotUsers)
+            foreach (UserModel user in gotUsers)
             {
                 list.Add(new[] { user.FirstName, user.LastName, user.EmailAddress, user.Password });
             }
@@ -29,22 +30,36 @@ namespace DataAccessAPI
 
         public void AddNewUser(string firstName, string lastName, string email, string password)
         {
-            USER user = new USER();
+            UserModel user = new UserModel();
             user.FirstName = firstName;
             user.LastName = lastName;
             user.EmailAddress = email;
             user.Password = password;
-            sqlConn.CreaUSER(user);
+            dataConnection.PostUser(user);
         }
 
-        public void DeleteElement(string firstName, string lastName, string email, string password)
+        public void DeleteUser(string firstName, string lastName, string email, string password)
         {
-            USER user = new USER();
+            UserModel user = new UserModel();
             user.FirstName = firstName;
             user.LastName = lastName;
             user.EmailAddress = email;
             user.Password = password;
-            sqlConn.DeleteUSER(user);
+            dataConnection.DeleteUser(user);
+        }
+        public void UpdateUser(string oldFirstName, string oldLastName, string oldEmail, string oldPassword, string newFirstName, string newLastName, string newEmail, string newPassword)
+        {
+            UserModel oldUser = new UserModel();
+            oldUser.FirstName = oldFirstName;
+            oldUser.LastName = oldLastName;
+            oldUser.EmailAddress = oldEmail;
+            oldUser.Password = oldPassword;
+            UserModel newUser = new UserModel();
+            newUser.FirstName = newFirstName;
+            newUser.LastName = newLastName;
+            newUser.EmailAddress = newEmail;
+            newUser.Password = newPassword;
+            dataConnection.PutUser(oldUser, newUser);
         }
     }
 }
